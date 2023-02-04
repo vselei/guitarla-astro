@@ -1,4 +1,4 @@
-# GuitarLA Next
+# GuitarLA Astro
 
 ### Features
 - [x] Página inicial
