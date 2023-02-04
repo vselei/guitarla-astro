@@ -1,10 +1,49 @@
 ---
+import Guitar from '../components/Guitar.astro';
 import Layout from '../layouts/Layout.astro';
+
+const urlGuitars = `${import.meta.env.PUBLIC_API_URL}/guitars?populate=image`;
+const urlBlogs = `${import.meta.env.PUBLIC_API_URL}/posts?populate=image`;
+const urlCourse = `${import.meta.env.PUBLIC_API_URL}/course?populate=image`;
+
+const [resGuitars, resBlogs, resCourse] = await Promise.all([
+  fetch(urlGuitars),
+  fetch(urlBlogs),
+  fetch(urlCourse)
+]);
+
+const [{ data: guitars }, { data: blogs }, { data: course }] =
+  await Promise.all([resGuitars.json(), resBlogs.json(), resCourse.json()]);
 ---
 
 <Layout title="Home" description="Loja de instrumentos e blog de música.">
   <main class="container">
-    <h1 class="heading">Home</h1>
+    <h1 class="heading">Nossa Coleção</h1>
+    <div class="grid">
+      {
+        guitars?.map(
+          (guitar: {
+            attributes: {
+              name: string;
+              description: string;
+              url: string;
+              price: number;
+              image: {
+                data: { attributes: { formats: { small: { url: string } } } };
+              };
+            };
+          }) => (
+            <Guitar
+              name={guitar.attributes.name}
+              description={guitar.attributes.description}
+              url={guitar.attributes.url}
+              price={guitar.attributes.price}
+              image={guitar.attributes.image}
+            />
+          )
+        )
+      }
+    </div>
   </main>
 </Layout>
 
