@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import aboutUsImg from '/img/about-us.jpg';
 ---
 
 <Layout
@@ -7,8 +8,41 @@ import Layout from '../layouts/Layout.astro';
   description="Loja de instrumentos e blog de música. Um pouco sobre nós"
 >
   <main class="container">
-    <h1 class="heading">Home</h1>
+    <h1 class="heading">Sobre Nós</h1>
+
+    <div class="content">
+      <img src={aboutUsImg} alt="Sobre nós" />
+      <div>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam est
+          tortor, consectetur ut tellus eget, malesuada ornare libero. Praesent
+          imperdiet, lorem a mattis sodales, risus erat cursus ipsum, vitae
+          blandit ex nisi mollis leo. Sed pretium ante non libero aliquam
+          vulputate. Praesent iaculis, urna sed gravida volutpat, tortor metus
+          viverra diam, vitae mollis enim odio eget sapien. Etiam imperdiet ex
+          massa, et mollis libero bibendum lacinia.
+        </p>
+
+        <p>
+          Fusce malesuada, velit porttitor ultricies condimentum, lectus dui
+          consequat ante, non feugiat nisi lectus ultrices ligula. Praesent quis
+          mollis risus. Quisque pharetra egestas tortor, ut consectetur ligula
+          vestibulum quis.
+        </p>
+      </div>
+    </div>
   </main>
 </Layout>
 
-<style></style>
+<style>
+  .content {
+    display: grid;
+    gap: 4rem;
+  }
+  @media (min-width: 768px) {
+    .content {
+      grid-template-columns: repeat(2, 1fr);
+      align-items: center;
+    }
+  }
+</style>
