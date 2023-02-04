@@ -1,5 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const url = `${import.meta.env.PUBLIC_API_URL}/posts?populate=image`;
+const response = await fetch(url);
+const { data } = await response.json();
 ---
 
 <Layout title="Blog" description="Blog de música, aprendizagem e muito mais!">
