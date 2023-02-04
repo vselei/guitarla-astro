@@ -1,0 +1,61 @@
+---
+import { dateFormatter } from '../../helpers';
+import Layout from '../../layouts/Layout.astro';
+
+export const getStaticPaths = async () => {
+  const url = `${import.meta.env.PUBLIC_API_URL}/posts?populate=image`;
+  const response = await fetch(url);
+  const { data } = await response.json();
+  return data?.map((post: { attributes: { url: string } }) => ({
+    params: {
+      id: post.attributes.url
+    },
+    props: {
+      post: post.attributes
+    }
+  }));
+};
+
+const { title, image, content, publishedAt } = Astro.props.post;
+---
+
+<Layout
+  title={title}
+  description={`Loja de guitarras e blog de música. Blog ${title}`}
+>
+  <article class="post mt-3">
+    <img src={image.data.attributes.formats.medium.url} alt={`Blog ${title}`} />
+
+    <div class="content">
+      <h3>{title}</h3>
+      <p class="date">{dateFormatter(publishedAt)}</p>
+      <p class="text">{content}</p>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .post {
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+  .content {
+    padding: 1.5rem;
+  }
+  .content h3 {
+    font-weight: 900;
+    font-size: 2.8rem;
+    margin: 0;
+  }
+  .date {
+    font-size: 1.6rem;
+    color: var(--primary);
+  }
+  .text {
+    white-space: pre-wrap;
+  }
+
+  .mt-3 {
+    margin-top: 3rem;
+  }
+</style>
