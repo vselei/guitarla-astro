@@ -1,10 +1,25 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const url = `${import.meta.env.PUBLIC_API_URL}/api/guitars`;
+const response = await fetch(url);
+const { data } = await response.json();
 ---
 
-<Layout title="Loja" description="Loja de guitarras e blog de música. Guitarras Dale, Young, Cobain e mais">
+<Layout
+  title="Loja"
+  description="Loja de guitarras e blog de música. Guitarras Dale, Young, Cobain e mais"
+>
   <main class="container">
-    <h1 class="heading">Loja</h1>
+    <h1 class="heading">Nossa Coleção</h1>
+
+    <div class="grid">
+      {
+        data?.map((guitar: { attributes: { name: string } }) => (
+          <h1>{guitar.attributes.name}</h1>
+        ))
+      }
+    </div>
   </main>
 </Layout>
 
