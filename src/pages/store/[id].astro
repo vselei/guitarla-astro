@@ -1,0 +1,28 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export const getStaticPaths = async () => {
+  const url = `${import.meta.env.PUBLIC_API_URL}/api/guitars?populate=image`;
+  const response = await fetch(url);
+  const { data } = await response.json();
+  return data?.map((guitar: { attributes: { url: string } }) => ({
+    params: {
+      id: guitar.attributes.url
+    },
+    props: {
+      guitar: guitar.attributes
+    }
+  }));
+};
+
+console.log(Astro.props);
+---
+
+<Layout
+  title="Loja"
+  description="Loja de guitarras e blog de música. Guitarras Dale, Young, Cobain e mais"
+>
+  <main class="guitar">
+    <h1>Routing dinâmico</h1>
+  </main>
+</Layout>
