@@ -1,5 +1,6 @@
 ---
 import Guitar from '../components/Guitar.astro';
+import Post from '../components/Post.astro';
 import Layout from '../layouts/Layout.astro';
 
 const urlGuitars = `${import.meta.env.PUBLIC_API_URL}/guitars?populate=image`;
@@ -45,6 +46,42 @@ const [{ data: guitars }, { data: blogs }, { data: course }] =
       }
     </div>
   </main>
+  <section class="container">
+    <h2 class="heading">Blog</h2>
+    <div class="grid">
+      {
+        blogs?.map(
+          (post: {
+            attributes: {
+              title: string;
+              content: string;
+              publishedAt: string;
+              image: {
+                data: {
+                  attributes: {
+                    formats: {
+                      small: {
+                        url: string;
+                      };
+                    };
+                  };
+                };
+              };
+              url: string;
+            };
+          }) => (
+            <Post
+              title={post.attributes.title}
+              publishedAt={post.attributes.publishedAt}
+              content={post.attributes.content}
+              image={post.attributes.image.data.attributes.formats.small.url}
+              url={post.attributes.url}
+            />
+          )
+        )
+      }
+    </div>
+  </section>
 </Layout>
 
 <style></style>
